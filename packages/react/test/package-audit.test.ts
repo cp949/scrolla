@@ -10,7 +10,9 @@ const fixturesDirectory = resolve(
 
 async function diagnosticsFor(fixtureName: string) {
   try {
-    await auditPackage(resolve(fixturesDirectory, fixtureName));
+    await auditPackage(resolve(fixturesDirectory, fixtureName), {
+      artifactDirectory: "package-artifacts",
+    });
   } catch (error) {
     expect(error).toBeInstanceOf(PackageAuditError);
     return (error as PackageAuditError).diagnostics;
@@ -43,7 +45,7 @@ describe("auditPackage", () => {
       diagnostics,
       "JS_SYNTAX_UNSUPPORTED",
       "syntax",
-      "dist/optional-chaining.js",
+      "package-artifacts/optional-chaining.js",
     );
   });
 
@@ -53,7 +55,7 @@ describe("auditPackage", () => {
       diagnostics,
       "JS_SYNTAX_UNSUPPORTED",
       "syntax",
-      "dist/nullish-coalescing.mjs",
+      "package-artifacts/nullish-coalescing.mjs",
     );
   });
 
@@ -67,16 +69,21 @@ describe("auditPackage", () => {
     "Chrome 75에 없는 runtime 기능이 배포되면 %s 진단을 낸다",
     async (code, category) => {
       const diagnostics = await diagnosticsFor("violations");
-      expectDiagnostic(diagnostics, code, category, "dist/runtime.cjs");
+    expectDiagnostic(
+      diagnostics,
+      code,
+      category,
+      "package-artifacts/runtime.cjs",
+    );
     },
   );
 
   test.each([
-    ["CSS_LAYER", "dist/styles.css"],
-    ["CSS_APPEARANCE_PREFIX", "dist/styles.css"],
-    ["CSS_MISSING_POINTER_EVENTS_NONE", "dist/styles.css"],
-    ["CSS_CUSTOM_PROPERTY_FALLBACK", "dist/styles.css"],
-    ["CSS_REDUCED_MOTION_FADE_DURATION", "dist/styles.css"],
+    ["CSS_LAYER", "package-artifacts/styles.css"],
+    ["CSS_APPEARANCE_PREFIX", "package-artifacts/styles.css"],
+    ["CSS_MISSING_POINTER_EVENTS_NONE", "package-artifacts/styles.css"],
+    ["CSS_CUSTOM_PROPERTY_FALLBACK", "package-artifacts/styles.css"],
+    ["CSS_REDUCED_MOTION_FADE_DURATION", "package-artifacts/styles.css"],
   ])("Chrome 75 CSS 계약을 위반하면 %s 진단을 낸다", async (code, path) => {
     const diagnostics = await diagnosticsFor("violations");
     expectDiagnostic(diagnostics, code, "css", path);
@@ -112,7 +119,7 @@ describe("auditPackage", () => {
   });
 
   test.each([
-    ["PUBLIC_CORE_DECLARATION_EXPORT", "dist/index.d.ts"],
+    ["PUBLIC_CORE_DECLARATION_EXPORT", "package-artifacts/index.d.ts"],
     ["PUBLIC_CORE_PACKAGE_EXPORT", "package.json"],
   ])("core가 공개 표면에 노출되면 %s 진단을 낸다", async (code, path) => {
     const diagnostics = await diagnosticsFor("violations");
@@ -120,9 +127,9 @@ describe("auditPackage", () => {
   });
 
   test.each([
-    ["PUBLIC_CORE_DECLARATION_FILE", "dist/core/index.d.ts"],
-    ["PUBLIC_CORE_SOURCEMAP_CONTENT", "dist/index.js.map"],
-  ])("core가 dist 산출물에 물리적으로 남으면 %s 진단을 낸다", async (code, path) => {
+    ["PUBLIC_CORE_DECLARATION_FILE", "package-artifacts/core/index.d.ts"],
+    ["PUBLIC_CORE_SOURCEMAP_CONTENT", "package-artifacts/index.js.map"],
+  ])("core가 package artifact에 물리적으로 남으면 %s 진단을 낸다", async (code, path) => {
     const diagnostics = await diagnosticsFor("violations");
     expectDiagnostic(diagnostics, code, "architecture", path);
   });
@@ -133,7 +140,7 @@ describe("auditPackage", () => {
       diagnostics,
       "PUBLIC_CLIENT_ENTRY_MISSING_USE_CLIENT",
       "client-boundary",
-      "dist/index.js",
+      "package-artifacts/index.js",
     );
   });
 
@@ -151,7 +158,9 @@ describe("auditPackage", () => {
 
   test("core declaration .d.mts와 .d.cts를 production source target에서 제외한다", async () => {
     await expect(
-      auditPackage(resolve(fixturesDirectory, "clean")),
+      auditPackage(resolve(fixturesDirectory, "clean"), {
+        artifactDirectory: "package-artifacts",
+      }),
     ).resolves.toEqual({
       diagnostics: [],
       targets: {

@@ -513,21 +513,23 @@ function auditCss(source, path, diagnostics) {
   }
 }
 
-export async function auditPackage(rootPath) {
+export async function auditPackage(rootPath, { artifactDirectory = "dist" } = {}) {
   const packageDirectory = resolve(rootPath);
-  const distFiles = await collectFiles(join(packageDirectory, "dist"));
+  const artifactFiles = await collectFiles(
+    join(packageDirectory, artifactDirectory),
+  );
   const coreFiles = (
     await collectFiles(join(packageDirectory, "src/core"))
   ).filter(
     (path) =>
       CORE_SOURCE_EXTENSIONS.has(extname(path)) && !isDeclarationFile(path),
   );
-  const javascriptFiles = distFiles.filter((path) =>
+  const javascriptFiles = artifactFiles.filter((path) =>
     JAVASCRIPT_EXTENSIONS.has(extname(path)),
   );
-  const declarationFiles = distFiles.filter(isDeclarationFile);
-  const cssFiles = distFiles.filter((path) => extname(path) === ".css");
-  const sourcemapFiles = distFiles.filter((path) =>
+  const declarationFiles = artifactFiles.filter(isDeclarationFile);
+  const cssFiles = artifactFiles.filter((path) => extname(path) === ".css");
+  const sourcemapFiles = artifactFiles.filter((path) =>
     /\.(?:js|mjs|cjs)\.map$/u.test(path),
   );
   const diagnostics = [];
@@ -537,7 +539,7 @@ export async function auditPackage(rootPath) {
       diagnostics,
       "MISSING_JS_TARGET",
       "javascript",
-      "dist",
+      artifactDirectory,
       "JavaScript 감사 대상이 없습니다.",
     );
   }
@@ -546,7 +548,7 @@ export async function auditPackage(rootPath) {
       diagnostics,
       "MISSING_DECLARATION_TARGET",
       "declaration",
-      "dist",
+      artifactDirectory,
       "declaration 감사 대상이 없습니다.",
     );
   }
@@ -555,7 +557,7 @@ export async function auditPackage(rootPath) {
       diagnostics,
       "MISSING_CSS_TARGET",
       "css",
-      "dist",
+      artifactDirectory,
       "CSS 감사 대상이 없습니다.",
     );
   }
@@ -575,7 +577,7 @@ export async function auditPackage(rootPath) {
         "PUBLIC_CORE_DECLARATION_FILE",
         "architecture",
         packagePath,
-        "private core declaration 파일이 dist에 물리적으로 존재할 수 없습니다.",
+        "private core declaration 파일이 package artifact에 물리적으로 존재할 수 없습니다.",
       );
     }
     auditDeclaration(await readFile(filePath, "utf8"), packagePath, diagnostics);

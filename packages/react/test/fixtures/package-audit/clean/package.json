@@ -2,9 +2,9 @@
   "name": "package-audit-clean",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./package-artifacts/index.d.ts",
+      "import": "./package-artifacts/index.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./package-artifacts/styles.css"
   }
 }
