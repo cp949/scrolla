@@ -1,0 +1,14 @@
+@layer fixtures {
+  .fixture {
+    appearance: none;
+  }
+}
+
+.fallback-violation {
+  color: var(--scrolla-thumb-color, red);
+}
+
+.fade-violation {
+  transition: opacity 200ms;
+  transition: opacity var(--scrolla-fade-duration, 200ms);
+}

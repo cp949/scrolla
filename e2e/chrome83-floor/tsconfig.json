@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["@playwright/test"]
+  },
+  "include": [
+    "**/*.ts",
+    "../../packages/react/test/browser-fixtures/controller-harness/src/main.ts",
+    "../../packages/react/test/browser-fixtures/controller-harness/src/vite-env.d.ts"
+  ]
+}

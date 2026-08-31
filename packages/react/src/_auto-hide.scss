@@ -1,0 +1,18 @@
+.scrolla__track,
+.scrolla__thumb {
+  opacity: 1;
+  transition: opacity 160ms;
+  transition: opacity var(--scrolla-fade-duration, 160ms);
+}
+
+.scrolla[data-visibility="hidden"] .scrolla__track,
+.scrolla[data-visibility="hidden"] .scrolla__thumb {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolla__track,
+  .scrolla__thumb {
+    transition-duration: 0ms;
+  }
+}

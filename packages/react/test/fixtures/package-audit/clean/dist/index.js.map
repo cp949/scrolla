@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts", "../src/core/index.ts"],
+  "sourcesContent": ["export declare function lastValue<T>(values: readonly T[]): T | undefined;\n", null],
+  "mappings": ""
+}

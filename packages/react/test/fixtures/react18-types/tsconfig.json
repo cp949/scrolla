@@ -1,0 +1,16 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "react": ["../../../node_modules/types-react-18/index.d.ts"],
+      "react/jsx-runtime": [
+        "../../../node_modules/types-react-18/jsx-runtime.d.ts"
+      ],
+      "react/jsx-dev-runtime": [
+        "../../../node_modules/types-react-18/jsx-dev-runtime.d.ts"
+      ]
+    }
+  },
+  "include": ["./*.ts", "./*.tsx"]
+}

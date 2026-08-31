@@ -1,0 +1,8 @@
+{
+  "name": "package-audit-violations",
+  "exports": {
+    ".": "./dist/index.js",
+    "./core": "./dist/core.js",
+    "./styles.css": "./dist/styles.css"
+  }
+}

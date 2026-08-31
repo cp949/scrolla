@@ -1,0 +1,65 @@
+_works/
+*.tgz
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build
+dist
+
+# packed consumer fixture 산출물 (검증 실행마다 재생성)
+packages/react/test/consumer-fixtures/.tarball/
+
+# controller harness 빌드 산출물 (browser 검증마다 재생성)
+packages/react/test/browser-fixtures/controller-harness/dist/
+
+# Playwright 실행 결과
+test-results/
+
+# Podman 컨테이너 실행 부산물(HOME=/repo로 잡혀 XDG 캐시/데이터
+# 디렉터리가 repo root에 생성됨 — fontconfig 캐시, pnpm store). fontconfig 버전에 따라
+# XDG 경로(.cache/fontconfig) 대신 레거시 경로(.fontconfig)를 쓰기도 한다.
+.cache/
+.local/
+.fontconfig/
+
+# package-audit.mjs 단위 테스트용 fixture는 "dist"라는 이름을 쓰지만 실제 build 산출물이
+# 아니라 손으로 작성한 테스트 입력이다. 위 "dist" 규칙에 걸려 git add로 새 fixture 파일을
+# 조용히 빠뜨리기 쉬우므로 명시적으로 추적한다.
+!packages/react/test/fixtures/package-audit/**/dist/
+!packages/react/test/fixtures/package-audit/**/dist/**
+
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+
+.claude/

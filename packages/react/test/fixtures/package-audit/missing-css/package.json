@@ -1,0 +1,7 @@
+{
+  "name": "package-audit-missing-css",
+  "exports": {
+    ".": "./dist/index.js",
+    "./styles.css": "./dist/styles.css"
+  }
+}

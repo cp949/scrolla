@@ -1,0 +1,58 @@
+.scrolla__track,
+.scrolla__thumb {
+  pointer-events: none;
+}
+
+.scrolla__track--horizontal {
+  height: 12px;
+  height: var(--scrolla-size, 12px);
+  background-color: transparent;
+  background-color: var(--scrolla-track-color, transparent);
+}
+
+.scrolla__track--vertical {
+  width: 12px;
+  width: var(--scrolla-size, 12px);
+  background-color: transparent;
+  background-color: var(--scrolla-track-color, transparent);
+}
+
+.scrolla__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  border-radius: var(--scrolla-radius, 999px);
+  background-color: rgba(0, 0, 0, 0.35);
+  background-color: var(--scrolla-thumb-color, rgba(0, 0, 0, 0.35));
+}
+
+.scrolla__thumb--horizontal {
+  height: 12px;
+  height: var(--scrolla-size, 12px);
+}
+
+.scrolla__thumb--vertical {
+  width: 12px;
+  width: var(--scrolla-size, 12px);
+}
+
+// 새 public CSS custom property를 추가하지 않는다. Stable class에
+// :focus-visible을 조합해 소비자가 직접 재정의할 수 있게 한다. 음수 outline-offset의
+// inset outline으로 holder/wrapper의 overflow: hidden에 잘리지 않는다. Pointer drag의
+// programmatic thumb.focus()에는 반응하지 않고 실제 keyboard focus에만 반응한다.
+.scrolla__thumb:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: -2px;
+}
+
+.scrolla:hover .scrolla__thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--scrolla-thumb-hover-color, rgba(0, 0, 0, 0.5));
+}
+
+.scrolla[data-dragging="horizontal"] .scrolla__thumb--horizontal,
+.scrolla[data-dragging="vertical"] .scrolla__thumb--vertical {
+  background-color: rgba(0, 0, 0, 0.65);
+  background-color: var(--scrolla-thumb-active-color, rgba(0, 0, 0, 0.65));
+}

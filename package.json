@@ -1,0 +1,33 @@
+{
+  "name": "scrolla-workspace",
+  "private": true,
+  "scripts": {
+    "audit": "turbo run audit",
+    "audit:tooling": "node scripts/audit-tooling.mjs",
+    "build": "turbo run build",
+    "check-types": "turbo run check-types",
+    "check-types:e2e": "tsc --noEmit --project e2e/chrome83-floor/tsconfig.json",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:e2e": "eslint --max-warnings 0 e2e packages/react/test/browser-fixtures/controller-harness/src",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test",
+    "test:e2e:chrome83": "podman build -t scrolla-chrome83 docker/chrome83 && podman run --rm --network host --userns=keep-id --user \"$(id -u):$(id -g)\" -e pnpm_config_verify_deps_before_run=false -e CHROME83_WEBSERVER=1 -v \"$(pwd)\":/repo -w /repo scrolla-chrome83 node scripts/run-browser-project.mjs chrome83-floor",
+    "test:e2e:latest-chrome": "CHROME_LATEST_WEBSERVER=1 node scripts/run-browser-project.mjs chrome-latest",
+    "verify": "pnpm audit:tooling && turbo run check-types lint test build audit audit-consumers && pnpm check-types:e2e && pnpm lint:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "9.39.5",
+    "prettier": "3.9.6",
+    "semver": "7.7.2",
+    "turbo": "2.10.12",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

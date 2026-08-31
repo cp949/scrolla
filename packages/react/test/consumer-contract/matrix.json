@@ -1,0 +1,29 @@
+{
+  "reactConsumers": [
+    {
+      "id": "react18",
+      "directory": "react18-app",
+      "auditScripts": ["check-types", "build", "verify-ssr"],
+      "browser": {
+        "port": 4175,
+        "ariaLabel": "React 18 consumer fixture"
+      }
+    },
+    {
+      "id": "react19",
+      "directory": "react19-app",
+      "auditScripts": ["check-types", "build", "verify-ssr"],
+      "browser": {
+        "port": 4176,
+        "ariaLabel": "React 19 consumer fixture"
+      }
+    }
+  ],
+  "buildOnlyConsumers": [
+    {
+      "id": "nextjs-rsc",
+      "directory": "nextjs-rsc",
+      "auditScripts": ["build"]
+    }
+  ]
+}
