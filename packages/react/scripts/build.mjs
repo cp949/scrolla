@@ -26,7 +26,7 @@ const dtsBundleGeneratorPath = resolve(
 // CORE_PATH_SEGMENT와 같은 패턴이다.
 const CORE_PATH_SEGMENT = /(?:^|[/\\])core(?:[/\\]|$)/u;
 
-const jsBanner = "/*! @cp949/scrolla-react provisional artifact */";
+const jsBanner = "/*! @cp949/scrolla-react package artifact */";
 
 async function buildJavaScript() {
   await build({

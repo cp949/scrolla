@@ -33,17 +33,17 @@ export function Example() {
 
 ## 주요 props
 
-| Prop | 기본값 | 설명 |
-| --- | --- | --- |
-| `axis` | `"both"` | `"both"`, `"horizontal"`, `"vertical"` |
-| `direction` | `"auto"` | `"auto"`, `"ltr"`, `"rtl"` |
-| `autoHide` | `false` | 유휴 상태에서 scrollbar를 숨김 |
-| `autoHideDelay` | `1000` | 숨김 전 대기 시간(ms) |
-| `scrollIdleDelay` | `120` | 마지막 scroll 후 idle 판정 시간(ms) |
-| `minThumbSize` | `24` | thumb 최소 길이(px) |
-| `initialPosition` | `{ x: 0, y: 0 }` | 최초 측정 뒤 한 번 적용할 위치 |
-| `onStateChange` | - | 상태와 변경 원인을 받는 callback |
-| `slotProps` | - | 위 slot의 class, style, ref, 접근성 속성 |
+| Prop              | 기본값           | 설명                                     |
+| ----------------- | ---------------- | ---------------------------------------- |
+| `axis`            | `"both"`         | `"both"`, `"horizontal"`, `"vertical"`   |
+| `direction`       | `"auto"`         | `"auto"`, `"ltr"`, `"rtl"`               |
+| `autoHide`        | `false`          | 유휴 상태에서 scrollbar를 숨김           |
+| `autoHideDelay`   | `1000`           | 숨김 전 대기 시간(ms)                    |
+| `scrollIdleDelay` | `120`            | 마지막 scroll 후 idle 판정 시간(ms)      |
+| `minThumbSize`    | `24`             | thumb 최소 길이(px)                      |
+| `initialPosition` | `{ x: 0, y: 0 }` | 최초 측정 뒤 한 번 적용할 위치           |
+| `onStateChange`   | -                | 상태와 변경 원인을 받는 callback         |
+| `slotProps`       | -                | 위 slot의 class, style, ref, 접근성 속성 |
 
 ## imperative API
 
@@ -84,14 +84,14 @@ CSS custom property와 8개 slot(`holder`, `wrapper`, `scroller`, `content`, `tr
 }
 ```
 
-Track과 thumb의 pointer/mouse/touch/wheel handler와 thumb의 library-owned ARIA 속성은 타입으로 제한됩니다. 전체 DOM 구조와 공개 타입은 [React 공개 API 계약](../../docs/contracts/react-v1.md)을 참고하세요.
+Track과 thumb의 pointer/mouse/touch/wheel handler와 thumb의 library-owned ARIA 속성은 타입으로 제한됩니다. 전체 DOM 구조와 공개 타입은 [React 공개 API 계약](https://github.com/cp949/scrolla/blob/main/docs/contracts/react-v1.md)을 참고하세요.
 
 ## 브라우저 지원
 
 - 하한 목표: Chrome Desktop 75
 - 실제 검증: Linux 컨테이너 Chrome 83, 최신 Chrome Desktop
 
-scrollbar 폭, classic/overlay scrollbar, touch, pointer capture, RTL과 `:focus-visible`은 browser·OS 환경에 따라 달라질 수 있습니다. 자세한 내용은 [브라우저 지원 문서](../../BROWSER-SUPPORT.md)를 확인하세요.
+scrollbar 폭, classic/overlay scrollbar, touch, pointer capture, RTL과 `:focus-visible`은 browser·OS 환경에 따라 달라질 수 있습니다. 자세한 내용은 [브라우저 지원 문서](https://github.com/cp949/scrolla/blob/main/BROWSER-SUPPORT.md)를 확인하세요.
 
 ## License
 

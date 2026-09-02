@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@cp949/scrolla-react':
-        specifier: file:../.tarball/cp949-scrolla-react-0.0.0.tgz
-        version: file:../.tarball/cp949-scrolla-react-0.0.0.tgz(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: file:../.tarball/cp949-scrolla-react-1.0.0.tgz
+        version: file:../.tarball/cp949-scrolla-react-1.0.0.tgz(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -131,9 +131,9 @@ packages:
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
 
-  '@cp949/scrolla-react@file:../.tarball/cp949-scrolla-react-0.0.0.tgz':
-    resolution: {integrity: sha512-BCIe1wqRysy4eqcoBhgJDpJs/57U+iemGgun6T2LIjZFcYYuWOEyw5yhwWKUxdqSppvhQK41qSBtUWF9zGsMyg==, tarball: file:../.tarball/cp949-scrolla-react-0.0.0.tgz}
-    version: 0.0.0
+  '@cp949/scrolla-react@file:../.tarball/cp949-scrolla-react-1.0.0.tgz':
+    resolution: {integrity: sha512-vc75GQOHmJBu2xa1eJWgx8rxlt2Celb485sevQ+82p1cEO5yu+4omdsVTyBqMqJBVXJ1UpMdeeWkEAiUs0UfAQ==, tarball: file:../.tarball/cp949-scrolla-react-1.0.0.tgz}
+    version: 1.0.0
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -855,7 +855,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@cp949/scrolla-react@file:../.tarball/cp949-scrolla-react-0.0.0.tgz(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@cp949/scrolla-react@file:../.tarball/cp949-scrolla-react-1.0.0.tgz(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)

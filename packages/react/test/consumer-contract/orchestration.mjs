@@ -11,7 +11,7 @@ const defaultPackageDirectory = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../..",
 );
-const tarballFileName = "cp949-scrolla-react-0.0.0.tgz";
+const tarballFileName = "cp949-scrolla-react-1.0.0.tgz";
 
 function runStep(execute, step) {
   try {

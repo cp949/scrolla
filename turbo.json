@@ -22,7 +22,9 @@
     "audit-consumers": {
       "dependsOn": ["build"]
     },
-    "check-types": {},
+    "check-types": {
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "dependsOn": ["^build"],
       "cache": false,

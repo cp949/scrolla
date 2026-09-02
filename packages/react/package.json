@@ -1,6 +1,6 @@
 {
   "name": "@cp949/scrolla-react",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "native scrolling을 유지하는 React 18/19용 custom scrollbar component",
   "keywords": [
     "react",
@@ -11,6 +11,15 @@
   ],
   "license": "MIT",
   "author": "cp949",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cp949/scrolla.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/cp949/scrolla#readme",
+  "bugs": {
+    "url": "https://github.com/cp949/scrolla/issues"
+  },
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -35,6 +44,7 @@
     "build": "node scripts/build.mjs",
     "check-types": "node scripts/audit-config-coverage.mjs && tsc --noEmit --project tsconfig.json && tsc --noEmit --project test/fixtures/react18-types/tsconfig.json && tsc --noEmit --project test/fixtures/slot-aria-types/tsconfig.json && tsc --noEmit --project test/browser-fixtures/controller-harness/tsconfig.json",
     "lint": "eslint --max-warnings 0 --ignore-pattern test/config-coverage.test.mts --ignore-pattern test/config-coverage.test.cts",
+    "prepublishOnly": "node ../../scripts/publish-npm.mjs --lifecycle-guard",
     "test": "vitest run --config vitest.config.ts"
   },
   "peerDependencies": {
