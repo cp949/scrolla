@@ -32,13 +32,13 @@ export function Example() {
 }
 ```
 
-상세 설치·사용법은 [npm package 문서](packages/react/README.md)를 참고하세요.
+상세 설치·사용법은 [React 사용 문서](packages/react/README.md)를 참고하세요.
 
 ## 브라우저 지원
 
-| 구분 | 범위 |
-| --- | --- |
-| 하한 목표 | Chrome Desktop 75 |
+| 구분      | 범위                                          |
+| --------- | --------------------------------------------- |
+| 하한 목표 | Chrome Desktop 75                             |
 | 실제 검증 | Linux 컨테이너 Chrome 83, 최신 Chrome Desktop |
 
 지원 범위와 알려진 제한은 [브라우저 지원 문서](BROWSER-SUPPORT.md)에서 확인하세요.
