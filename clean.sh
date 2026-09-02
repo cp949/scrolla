@@ -3,12 +3,8 @@
 set -Eeuo pipefail
 
 readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-readonly REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
-
-if [[ -z "$REPO_ROOT" || "$REPO_ROOT" != "$SCRIPT_DIR" ]]; then
-  printf 'error: clean.sh must be located at the repository root\n' >&2
-  exit 1
-fi
+cd -- "$SCRIPT_DIR"
+readonly REPO_ROOT="$SCRIPT_DIR"
 
 DRY_RUN=false
 if [[ "${1:-}" == "--dry-run" ]]; then
