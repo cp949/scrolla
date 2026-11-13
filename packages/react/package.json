@@ -54,21 +54,21 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@testing-library/react": "16.3.3",
-    "@types/node": "20.19.43",
+    "@types/node": "22.20.5",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
     "acorn": "8.15.0",
     "autoprefixer": "10.4.23",
     "dts-bundle-generator": "9.5.1",
     "esbuild": "0.28.1",
-    "jsdom": "27.0.1",
+    "jsdom": "31.0.1",
     "postcss": "8.5.23",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sass": "1.97.3",
     "types-react-18": "npm:@types/react@18.3.31",
     "typescript": "6.0.3",
-    "vite": "8.2.6",
-    "vitest": "4.1.12"
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
   }
 }

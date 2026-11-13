@@ -12,7 +12,7 @@
 # 가능한 최소 후보다.
 FROM debian:buster-slim
 
-ARG NODE_VERSION=22.13.0
+ARG NODE_VERSION=22.23.5
 ARG PNPM_VERSION=10.34.5
 
 RUN set -eux; \

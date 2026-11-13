@@ -4,6 +4,8 @@ import { dirname, join, relative } from "node:path";
 import semver from "semver";
 
 const rootDirectory = process.cwd();
+// vitest(^22.12 || ^24 || >=26)와 jsdom(^22.22.2 || ^24.15.0 || >=26)의 engines 교집합이다.
+const supportedNodeRange = "^22.22.2 || ^24.15.0 || >=26.0.0";
 const toolingPackages = new Set([
   "@types/node",
   "@types/react",
@@ -108,8 +110,8 @@ for (const manifestPath of manifestPaths) {
   const label = relative(rootDirectory, manifestPath) || "package.json";
 
   if (manifestPath === join(rootDirectory, "package.json")) {
-    if (manifest.engines?.node !== ">=20.19.0") {
-      report(`${label}: engines.node는 >=20.19.0이어야 합니다 (현재: ${manifest.engines?.node ?? "없음"}).`);
+    if (manifest.engines?.node !== supportedNodeRange) {
+      report(`${label}: engines.node는 ${supportedNodeRange}이어야 합니다 (현재: ${manifest.engines?.node ?? "없음"}).`);
     }
   }
 
@@ -140,8 +142,8 @@ for (const manifestPath of manifestPaths) {
       try {
         const installed = installedPackageManifest(manifestPath, packageName);
         const nodeRange = installed.engines?.node;
-        if (nodeRange && !semver.satisfies("20.19.0", nodeRange)) {
-          report(`${label}: ${packageName}@${installed.version}의 engines.node ${nodeRange}는 Node 20.19.0을 허용하지 않습니다.`);
+        if (nodeRange && !semver.subset(supportedNodeRange, nodeRange)) {
+          report(`${label}: ${packageName}@${installed.version}의 engines.node ${nodeRange}는 지원 범위 ${supportedNodeRange}를 모두 허용하지 않습니다.`);
         }
       } catch (error) {
         report(`${label}: ${packageName}의 설치된 package.json을 읽을 수 없습니다 (${error.message}).`);
