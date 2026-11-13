@@ -9,7 +9,12 @@ export default function Home() {
   return (
     <main>
       <h1>React Server Component consumer fixture</h1>
-      <Scrolla axis="vertical" direction="auto" autoHide style={{ height: 200, width: 300 }}>
+      <Scrolla
+        axis="vertical"
+        direction="auto"
+        autoHide
+        style={{ height: 200, width: 300 }}
+      >
         <div style={{ height: 800 }}>content</div>
       </Scrolla>
     </main>
