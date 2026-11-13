@@ -3,6 +3,7 @@ import type {
   ScrollbarController,
   ScrollbarControllerCreateOptions,
   ScrollbarControllerElements,
+  ScrollbarControllerIngress,
   ScrollbarControllerRuntime,
 } from "../../../../src/core/index.js";
 import "../../../../src/styles.scss";
@@ -108,17 +109,26 @@ function wireInteractions(
   controller.subscribe(syncTabIndex);
 }
 
+function mountHarnessRuntime(
+  root: HTMLElement,
+  testId: string,
+  sizes: HarnessSizes,
+  options: ScrollbarControllerCreateOptions,
+): ScrollbarControllerRuntime {
+  const elements = buildMarkup(testId, sizes);
+  root.append(elements.holder);
+  const runtime = createScrollbarControllerRuntime(elements, options);
+  wireInteractions(elements, runtime);
+  return runtime;
+}
+
 function mountHarness(
   root: HTMLElement,
   testId: string,
   sizes: HarnessSizes,
   options: ScrollbarControllerCreateOptions,
 ): ScrollbarController {
-  const elements = buildMarkup(testId, sizes);
-  root.append(elements.holder);
-  const runtime = createScrollbarControllerRuntime(elements, options);
-  wireInteractions(elements, runtime);
-  return runtime.controller;
+  return mountHarnessRuntime(root, testId, sizes, options).controller;
 }
 
 const root = document.getElementById("app");
@@ -134,6 +144,8 @@ declare global {
   interface Window {
     __scrollaController?: ScrollbarController;
     __scrollaControllerRtl?: ScrollbarController;
+    // getEffectiveDirection은 controller가 아니라 ingress에만 있다.
+    __scrollaIngressRtl?: ScrollbarControllerIngress;
     __scrollaControllerNestedOuter?: ScrollbarController;
     __scrollaControllerNestedInner?: ScrollbarController;
     __scrollaControllerAutoHide?: ScrollbarController;
@@ -155,7 +167,7 @@ window.__scrollaController = mountHarness(
 const rtlHolder = document.createElement("div");
 rtlHolder.style.direction = "rtl";
 root.append(rtlHolder);
-window.__scrollaControllerRtl = mountHarness(
+const rtlRuntime = mountHarnessRuntime(
   rtlHolder,
   "harness-holder-rtl",
   {
@@ -166,6 +178,8 @@ window.__scrollaControllerRtl = mountHarness(
   },
   { axis: "both", direction: "rtl", autoHide: false },
 );
+window.__scrollaControllerRtl = rtlRuntime.controller;
+window.__scrollaIngressRtl = rtlRuntime.ingress;
 
 // nested scroll(wheel chaining) 검증 전용 구조: 안쪽 harness의 holder를 바깥
 // harness의 content 안에 중첩시켜 실제 DOM 중첩 구조를 만든다. mountHarness는
