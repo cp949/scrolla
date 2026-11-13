@@ -7,7 +7,7 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --max-warnings 0",
+    "lint": "oxlint --deny-warnings -c ../../.oxlintrc.json",
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
@@ -17,12 +17,10 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "20.19.43",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
-    "eslint": "9.39.5",
     "typescript": "6.0.3"
   }
 }

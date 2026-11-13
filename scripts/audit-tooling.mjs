@@ -5,31 +5,27 @@ import semver from "semver";
 
 const rootDirectory = process.cwd();
 const toolingPackages = new Set([
-  "@eslint/js",
-  "@next/eslint-plugin-next",
   "@types/node",
   "@types/react",
   "@types/react-dom",
   "acorn",
   "autoprefixer",
   "esbuild",
-  "eslint",
-  "eslint-config-prettier",
-  "eslint-plugin-only-warn",
-  "eslint-plugin-react-hooks",
-  "eslint-plugin-turbo",
-  "globals",
   "jsdom",
-  "prettier",
+  "oxfmt",
+  "oxlint",
+  "oxlint-tsgolint",
   "postcss",
   "sass",
   "semver",
   "turbo",
   "typescript",
-  "typescript-eslint",
   "vite",
   "vitest",
 ]);
+
+// oxlint, oxfmt로 대체했으므로 다시 추가되면 실패시킨다.
+const forbiddenPackages = new Set(["@biomejs/biome", "eslint", "prettier"]);
 
 const runtimePackages = new Set(["next", "react", "react-dom"]);
 
@@ -126,12 +122,8 @@ for (const manifestPath of manifestPaths) {
       }
     }
 
-    if (packageName === "eslint" && semver.coerce(version)?.major === 10) {
-      report(`${label}: ESLint 10은 허용되지 않습니다 (${version}).`);
-    }
-
-    if (packageName === "eslint-plugin-only-warn") {
-      report(`${label}: eslint-plugin-only-warn은 허용되지 않습니다.`);
+    if (forbiddenPackages.has(packageName) || packageName.startsWith("eslint-")) {
+      report(`${label}: ${packageName}은 허용되지 않습니다. oxlint, oxfmt를 사용하세요.`);
     }
 
     if (runtimePackages.has(packageName) || !toolingPackages.has(packageName)) {

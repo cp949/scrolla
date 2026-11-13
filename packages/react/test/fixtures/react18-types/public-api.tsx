@@ -28,7 +28,7 @@ function ExampleConsumer(): React.JSX.Element {
     autoHide: true,
     initialPosition: { x: 0, y: 0 },
     onStateChange: (state: ScrollaState) => {
-      state.position;
+      void state.position;
     },
     slotProps,
   };

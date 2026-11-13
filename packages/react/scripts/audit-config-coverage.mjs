@@ -1,9 +1,11 @@
+import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
-import { ESLint } from "eslint";
 import ts from "typescript";
 
 const packageDirectory = path.resolve(
@@ -12,13 +14,45 @@ const packageDirectory = path.resolve(
 );
 const diagnostics = [];
 
-const ruleSeverity = (config, ruleName) => {
-  const setting = config?.rules?.[ruleName];
+const execFileAsync = promisify(execFile);
+// exports에 bin이 없으므로 package.json 위치에서 CLI 진입점을 계산한다.
+const oxlintBinPath = path.join(
+  path.dirname(createRequire(import.meta.url).resolve("oxlint/package.json")),
+  "bin/oxlint",
+);
+const oxlintConfigPath = path.resolve(packageDirectory, "../../.oxlintrc.json");
+const unsafeAssignmentCode = "typescript(no-unsafe-assignment)";
+// any 값을 타입이 있는 변수에 대입하므로 typed 규칙이 켜진 경우에만 진단이 나온다.
+const probeSource =
+  'export const probe = JSON.parse("{}");\nexport const typed: string = probe;\n';
 
-  return Array.isArray(setting) ? setting[0] : setting;
+const lintProbeFiles = async (filePaths) => {
+  try {
+    const { stdout } = await execFileAsync(
+      process.execPath,
+      [
+        oxlintBinPath,
+        "--type-aware",
+        "--format=json",
+        "-c",
+        oxlintConfigPath,
+        ...filePaths,
+      ],
+      { cwd: packageDirectory },
+    );
+
+    return JSON.parse(stdout).diagnostics;
+  } catch (error) {
+    // 진단이 있으면 oxlint가 비정상 종료하지만 stdout에는 JSON이 남는다.
+    if (typeof error.stdout === "string" && error.stdout.startsWith("{")) {
+      return JSON.parse(error.stdout).diagnostics;
+    }
+
+    throw error;
+  }
 };
 
-const auditEslintCoverage = async () => {
+const auditOxlintCoverage = async () => {
   const typedTestPaths = [
     "test/config-coverage.test.mts",
     "test/config-coverage.test.cts",
@@ -34,64 +68,50 @@ const auditEslintCoverage = async () => {
     "vitest.config.mts",
     "vitest.config.cts",
   ];
-  const createdTestFiles = [];
+  const createdFiles = [];
 
   try {
-    for (const filePath of typedTestPaths) {
+    for (const filePath of [...typedPaths, ...untypedPaths]) {
       const absolutePath = path.join(packageDirectory, filePath);
-      await writeFile(absolutePath, "export {};\n", { flag: "wx" });
-      createdTestFiles.push(absolutePath);
+      await writeFile(absolutePath, probeSource, { flag: "wx" });
+      createdFiles.push(absolutePath);
     }
 
-    const eslint = new ESLint({ cwd: packageDirectory });
+    const diagnosticsByFile = new Map();
+
+    for (const diagnostic of await lintProbeFiles([
+      ...typedPaths,
+      ...untypedPaths,
+    ])) {
+      const fileDiagnostics = diagnosticsByFile.get(diagnostic.filename) ?? [];
+      fileDiagnostics.push(diagnostic);
+      diagnosticsByFile.set(diagnostic.filename, fileDiagnostics);
+    }
 
     for (const filePath of typedPaths) {
-      const config = await eslint.calculateConfigForFile(filePath);
-      const projectService =
-        config?.languageOptions?.parserOptions?.projectService;
-      const unsafeAssignment = ruleSeverity(
-        config,
-        "@typescript-eslint/no-unsafe-assignment",
+      const fileDiagnostics = diagnosticsByFile.get(filePath) ?? [];
+      const unsafeAssignments = fileDiagnostics.filter(
+        ({ code }) => code === unsafeAssignmentCode,
       );
 
-      if (projectService !== true || unsafeAssignment !== 2) {
+      if (unsafeAssignments.length === 0) {
         diagnostics.push(
-          `CONFIG_ESLINT_TYPED_COVERAGE ${filePath}: expected projectService=true and @typescript-eslint/no-unsafe-assignment=error`,
-        );
-      }
-    }
-
-    for (const filePath of typedTestPaths) {
-      const [result] = await eslint.lintText("export {};", { filePath });
-      const projectDiagnostics = result.messages.filter(
-        ({ fatal, message }) =>
-          fatal === true || /project service/i.test(message),
-      );
-
-      if (projectDiagnostics.length > 0) {
-        diagnostics.push(
-          `CONFIG_ESLINT_PROJECT_SERVICE ${filePath}: expected lintText parsing without fatal/project-resolution diagnostics; got ${projectDiagnostics.map(({ message }) => message).join(" | ")}`,
+          `CONFIG_OXLINT_TYPED_COVERAGE ${filePath}: expected typescript/no-unsafe-assignment=error diagnostic from type-aware linting`,
         );
       }
     }
 
     for (const filePath of untypedPaths) {
-      const config = await eslint.calculateConfigForFile(filePath);
-      const projectService =
-        config?.languageOptions?.parserOptions?.projectService;
-      const unsafeAssignment = ruleSeverity(
-        config,
-        "@typescript-eslint/no-unsafe-assignment",
-      );
+      const fileDiagnostics = diagnosticsByFile.get(filePath) ?? [];
 
-      if (projectService !== false || unsafeAssignment !== 0) {
+      if (fileDiagnostics.some(({ code }) => code === unsafeAssignmentCode)) {
         diagnostics.push(
-          `CONFIG_ESLINT_UNTYPED_COVERAGE ${filePath}: expected projectService=false and @typescript-eslint/no-unsafe-assignment=off`,
+          `CONFIG_OXLINT_UNTYPED_COVERAGE ${filePath}: expected typescript/no-unsafe-assignment=off`,
         );
       }
     }
   } finally {
-    await Promise.all(createdTestFiles.map((filePath) => rm(filePath)));
+    await Promise.all(createdFiles.map((filePath) => rm(filePath)));
   }
 };
 
@@ -139,7 +159,7 @@ const auditTypescriptCoverage = async () => {
   }
 };
 
-await auditEslintCoverage();
+await auditOxlintCoverage();
 await auditTypescriptCoverage();
 
 if (diagnostics.length > 0) {
@@ -147,6 +167,6 @@ if (diagnostics.length > 0) {
   process.exitCode = 1;
 } else {
   console.log(
-    "Config coverage audit passed: resolved typed .mts/.cts config, Project Service test parsing, untyped tooling, and TypeScript production includes.",
+    "Config coverage audit passed: typed .mts/.cts oxlint rules, untyped tooling, and TypeScript production includes.",
   );
 }
