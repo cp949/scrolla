@@ -22,7 +22,10 @@ function disposeScenarios(registered: Array<{ dispose(): void }>): void {
     throw errors[0];
   }
   if (errors.length > 1) {
-    throw new AggregateError(errors, "controller test scenario afterEach cleanup failed");
+    throw new AggregateError(
+      errors,
+      "controller test scenario afterEach cleanup failed",
+    );
   }
 }
 
@@ -43,7 +46,9 @@ describe("controller test platform", () => {
       "clearTimeout",
       "Date",
       "ResizeObserver",
-    ].map((name) => [name, Object.getOwnPropertyDescriptor(window, name)] as const);
+    ].map(
+      (name) => [name, Object.getOwnPropertyDescriptor(window, name)] as const,
+    );
     const scenario = createScenario();
     const controller = scenario.createController();
 
@@ -65,11 +70,14 @@ describe("controller test platform", () => {
     for (const [name, descriptor] of beforeDescriptors) {
       expect(Object.getOwnPropertyDescriptor(window, name)).toEqual(descriptor);
     }
-    expect(Object.getOwnPropertyDescriptor(scenario.elements.scroller, "scrollLeft")).toBe(
-      undefined,
-    );
     expect(
-      Object.getOwnPropertyDescriptor(scenario.elements.holder, "setPointerCapture"),
+      Object.getOwnPropertyDescriptor(scenario.elements.scroller, "scrollLeft"),
+    ).toBe(undefined);
+    expect(
+      Object.getOwnPropertyDescriptor(
+        scenario.elements.holder,
+        "setPointerCapture",
+      ),
     ).toBe(undefined);
   });
 
@@ -102,7 +110,10 @@ describe("controller test platform", () => {
     const scenario = createScenario({
       instrumentation: ["resource-events", "captured-callbacks"],
     });
-    const runtime = scenario.createRuntime({ autoHide: true, autoHideDelay: 10 });
+    const runtime = scenario.createRuntime({
+      autoHide: true,
+      autoHideDelay: 10,
+    });
 
     scenario.frames.runNext();
     runtime.ingress.dispatch({ type: "holder-pointer-enter" });
@@ -158,8 +169,13 @@ describe("controller test platform", () => {
   });
 
   test("advance는 시계만 이동하고 runDue는 due snapshot을 한 번만 실행한다", () => {
-    const scenario = createScenario({ instrumentation: ["captured-callbacks"] });
-    const runtime = scenario.createRuntime({ autoHide: true, autoHideDelay: 10 });
+    const scenario = createScenario({
+      instrumentation: ["captured-callbacks"],
+    });
+    const runtime = scenario.createRuntime({
+      autoHide: true,
+      autoHideDelay: 10,
+    });
     scenario.frames.runNext();
     runtime.ingress.dispatch({ type: "holder-pointer-enter" });
     runtime.ingress.dispatch({ type: "holder-pointer-leave" });
@@ -193,7 +209,9 @@ describe("controller test platform", () => {
   });
 
   test("취소된 frame과 timer callback을 늦게 실행해도 production runtime은 no-op이다", () => {
-    const scenario = createScenario({ instrumentation: ["captured-callbacks"] });
+    const scenario = createScenario({
+      instrumentation: ["captured-callbacks"],
+    });
     const runtime = scenario.createRuntime({ autoHide: true });
     scenario.frames.runNext();
     runtime.ingress.dispatch({ type: "holder-pointer-enter" });
@@ -218,7 +236,10 @@ describe("controller test platform", () => {
     const scenario = createScenario({ instrumentation: ["resource-events"] });
     scenario.createController();
     scenario.createController();
-    scenario.frames.failCancel(2, new Error("second controller cancel failure"));
+    scenario.frames.failCancel(
+      2,
+      new Error("second controller cancel failure"),
+    );
     scenario.frames.failCancel(1, new Error("first controller cancel failure"));
 
     expect(() => scenario.dispose()).toThrow(AggregateError);
@@ -538,9 +559,9 @@ describe("controller test platform", () => {
         expect.arrayContaining([setupError, cleanupError]),
       );
       expect(targetDocument.body.childElementCount).toBe(beforeChildren);
-      expect(Object.getOwnPropertyDescriptor(targetWindow, "requestAnimationFrame")).toEqual(
-        beforeRaf,
-      );
+      expect(
+        Object.getOwnPropertyDescriptor(targetWindow, "requestAnimationFrame"),
+      ).toEqual(beforeRaf);
     } finally {
       Object.defineProperty = defineProperty;
       iframe.remove();
@@ -550,7 +571,10 @@ describe("controller test platform", () => {
   test("iframe owner document에만 substitute를 설치하고 global window를 그대로 둔다", () => {
     const iframe = document.createElement("iframe");
     document.body.append(iframe);
-    const globalRaf = Object.getOwnPropertyDescriptor(window, "requestAnimationFrame");
+    const globalRaf = Object.getOwnPropertyDescriptor(
+      window,
+      "requestAnimationFrame",
+    );
     const targetWindow = iframe.contentWindow!;
     const targetDocument = iframe.contentDocument!;
     const frameRaf = Object.getOwnPropertyDescriptor(
@@ -560,9 +584,9 @@ describe("controller test platform", () => {
 
     const scenario = createScenario({ document: targetDocument });
     expect(scenario.elements.holder.ownerDocument).toBe(targetDocument);
-    expect(Object.getOwnPropertyDescriptor(window, "requestAnimationFrame")).toEqual(
-      globalRaf,
-    );
+    expect(
+      Object.getOwnPropertyDescriptor(window, "requestAnimationFrame"),
+    ).toEqual(globalRaf);
     scenario.dispose();
     expect(
       Object.getOwnPropertyDescriptor(targetWindow, "requestAnimationFrame"),
@@ -618,9 +642,9 @@ describe("controller test platform", () => {
     const inner = createScenario();
 
     inner.dispose();
-    expect(Object.getOwnPropertyDescriptor(window, "requestAnimationFrame")).toEqual(
-      outerRaf,
-    );
+    expect(
+      Object.getOwnPropertyDescriptor(window, "requestAnimationFrame"),
+    ).toEqual(outerRaf);
     outer.dispose();
     expect(outer.frames.cancelCount).toBe(1);
     outer.dispose();

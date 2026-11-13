@@ -24,16 +24,24 @@ test.describe("internal controller harness — pointer interaction", () => {
     const endY = startY + 100;
 
     // Chrome83 DevTools Protocol setInterceptDrags 미지원 우회
-    await cdpPointerDrag(page, { x: startX, y: startY }, { x: startX, y: endY });
+    await cdpPointerDrag(
+      page,
+      { x: startX, y: startY },
+      { x: startX, y: endY },
+    );
 
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBeGreaterThan(0);
   });
 
-  test("track jump 클릭으로 thumb 밖 위치가 즉시 이동한다", async ({ page }) => {
+  test("track jump 클릭으로 thumb 밖 위치가 즉시 이동한다", async ({
+    page,
+  }) => {
     await page.goto("/");
 
     await page.waitForFunction(
@@ -67,7 +75,9 @@ test.describe("internal controller harness — pointer interaction", () => {
 
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBeGreaterThan(0);
   });
@@ -84,7 +94,9 @@ test.describe("internal controller harness — pointer interaction", () => {
 
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBeGreaterThan(0);
   });
@@ -105,7 +117,9 @@ test.describe("internal controller harness — pointer interaction", () => {
     await page.keyboard.press("ArrowDown");
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBe(40);
 
@@ -115,14 +129,18 @@ test.describe("internal controller harness — pointer interaction", () => {
     );
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBe(maxY);
 
     await page.keyboard.press("Home");
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBe(0);
 
@@ -142,7 +160,9 @@ test.describe("internal controller harness — pointer interaction", () => {
     const expectedPositionAfterPageDown = Math.min(viewportHeight, maxY);
     await expect
       .poll(() =>
-        page.evaluate(() => window.__scrollaController?.getState().position.y ?? -1),
+        page.evaluate(
+          () => window.__scrollaController?.getState().position.y ?? -1,
+        ),
       )
       .toBe(expectedPositionAfterPageDown);
   });

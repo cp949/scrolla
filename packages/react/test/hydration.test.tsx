@@ -11,12 +11,13 @@ import type {
   ScrollbarControllerRuntime,
 } from "../src/core/index.js";
 
-const createScrollbarControllerRuntime = vi.fn<
-  (
-    elements: ScrollbarControllerElements,
-    options?: ScrollbarControllerCreateOptions,
-  ) => ScrollbarControllerRuntime
->();
+const createScrollbarControllerRuntime =
+  vi.fn<
+    (
+      elements: ScrollbarControllerElements,
+      options?: ScrollbarControllerCreateOptions,
+    ) => ScrollbarControllerRuntime
+  >();
 
 vi.mock("../src/core/index.js", () => ({
   createScrollbarControllerRuntime: (
@@ -116,9 +117,7 @@ describe("SSR과 hydration", () => {
       createControllerStub(),
     );
 
-    const { html, container } = renderAndHydrate(
-      <Scrolla direction="auto" />,
-    );
+    const { html, container } = renderAndHydrate(<Scrolla direction="auto" />);
 
     const serverContainer = document.createElement("div");
     serverContainer.innerHTML = html;

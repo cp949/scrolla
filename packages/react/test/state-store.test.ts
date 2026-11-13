@@ -3,10 +3,7 @@ import {
   createSubscriptionRegistry,
   createScrollbarStateStore,
 } from "../src/core/state-store.js";
-import type {
-  ScrollaChangeMeta,
-  ScrollaState,
-} from "../src/value-types.js";
+import type { ScrollaChangeMeta, ScrollaState } from "../src/value-types.js";
 
 function state(positionX = 0): ScrollaState {
   return {

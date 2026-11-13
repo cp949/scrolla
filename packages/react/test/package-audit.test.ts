@@ -69,12 +69,12 @@ describe("auditPackage", () => {
     "Chrome 75에 없는 runtime 기능이 배포되면 %s 진단을 낸다",
     async (code, category) => {
       const diagnostics = await diagnosticsFor("violations");
-    expectDiagnostic(
-      diagnostics,
-      code,
-      category,
-      "package-artifacts/runtime.cjs",
-    );
+      expectDiagnostic(
+        diagnostics,
+        code,
+        category,
+        "package-artifacts/runtime.cjs",
+      );
     },
   );
 
@@ -129,10 +129,13 @@ describe("auditPackage", () => {
   test.each([
     ["PUBLIC_CORE_DECLARATION_FILE", "package-artifacts/core/index.d.ts"],
     ["PUBLIC_CORE_SOURCEMAP_CONTENT", "package-artifacts/index.js.map"],
-  ])("core가 package artifact에 물리적으로 남으면 %s 진단을 낸다", async (code, path) => {
-    const diagnostics = await diagnosticsFor("violations");
-    expectDiagnostic(diagnostics, code, "architecture", path);
-  });
+  ])(
+    "core가 package artifact에 물리적으로 남으면 %s 진단을 낸다",
+    async (code, path) => {
+      const diagnostics = await diagnosticsFor("violations");
+      expectDiagnostic(diagnostics, code, "architecture", path);
+    },
+  );
 
   test("공개 client entry 최상단에 'use client'가 없으면 PUBLIC_CLIENT_ENTRY_MISSING_USE_CLIENT 진단을 낸다", async () => {
     const diagnostics = await diagnosticsFor("violations");

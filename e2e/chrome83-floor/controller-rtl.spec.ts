@@ -8,13 +8,12 @@ test.describe("internal controller harness — RTL", () => {
 
     await expect
       .poll(() =>
-        page.evaluate(
-          () =>
-            (
-              window.__scrollaControllerRtl as unknown as {
-                getEffectiveDirection(): "ltr" | "rtl";
-              }
-            )?.getEffectiveDirection(),
+        page.evaluate(() =>
+          (
+            window.__scrollaControllerRtl as unknown as {
+              getEffectiveDirection(): "ltr" | "rtl";
+            }
+          )?.getEffectiveDirection(),
         ),
       )
       .toBe("rtl");

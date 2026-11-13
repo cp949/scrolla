@@ -21,7 +21,10 @@ function disposeScenarios(): void {
     throw errors[0];
   }
   if (errors.length > 1) {
-    throw new AggregateError(errors, "controller test scenarios cleanup failed");
+    throw new AggregateError(
+      errors,
+      "controller test scenarios cleanup failed",
+    );
   }
 }
 
@@ -217,7 +220,10 @@ describe("자원 수명 — 반복 경로", () => {
       const scenario = createControllerTestScenario({
         instrumentation: ["resource-events"],
       });
-      const addListener = vi.spyOn(scenario.elements.scroller, "addEventListener");
+      const addListener = vi.spyOn(
+        scenario.elements.scroller,
+        "addEventListener",
+      );
       try {
         const controller = scenario.createController({ scrollIdleDelay: 50 });
         scenario.frames.runNext();

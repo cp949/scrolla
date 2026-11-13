@@ -21,19 +21,32 @@ type ScrollaAxis = "both" | "horizontal" | "vertical";
 type ScrollaDirection = "auto" | "ltr" | "rtl";
 type ScrollaPhysicalAxis = "horizontal" | "vertical";
 
-interface ScrollPosition { readonly x: number; readonly y: number }
+interface ScrollPosition {
+  readonly x: number;
+  readonly y: number;
+}
 interface ScrollaState {
   readonly position: ScrollPosition;
   readonly maxPosition: ScrollPosition;
   readonly viewportSize: { readonly width: number; readonly height: number };
   readonly contentSize: { readonly width: number; readonly height: number };
-  readonly overflow: { readonly horizontal: boolean; readonly vertical: boolean };
+  readonly overflow: {
+    readonly horizontal: boolean;
+    readonly vertical: boolean;
+  };
   readonly scrolling: boolean;
   readonly draggingAxis: ScrollaPhysicalAxis | null;
   readonly visibility: "visible" | "hidden";
 }
-type ScrollaChangeReason = "init" | "scroll" | "geometry" | "interaction" | "visibility";
-interface ScrollaChangeMeta { readonly reasons: readonly ScrollaChangeReason[] }
+type ScrollaChangeReason =
+  | "init"
+  | "scroll"
+  | "geometry"
+  | "interaction"
+  | "visibility";
+interface ScrollaChangeMeta {
+  readonly reasons: readonly ScrollaChangeReason[];
+}
 interface ScrollaHandle {
   refresh(): void;
   scrollTo(position: Partial<ScrollPosition>): void;
@@ -46,14 +59,14 @@ interface ScrollaHandle {
 
 ## 기본값과 명령
 
-| Prop | 기본값 |
-| --- | --- |
-| `axis` | `"both"` |
-| `direction` | `"auto"` |
-| `autoHide` | `false` |
-| `autoHideDelay` | `1000` |
-| `scrollIdleDelay` | `120` |
-| `minThumbSize` | `24` |
+| Prop              | 기본값           |
+| ----------------- | ---------------- |
+| `axis`            | `"both"`         |
+| `direction`       | `"auto"`         |
+| `autoHide`        | `false`          |
+| `autoHideDelay`   | `1000`           |
+| `scrollIdleDelay` | `120`            |
+| `minThumbSize`    | `24`             |
 | `initialPosition` | `{ x: 0, y: 0 }` |
 
 `refresh()`는 비동기 geometry 갱신을 예약합니다. `scrollTo()`와 `scrollBy()`는 logical position을 사용하고 범위를 clamp합니다. non-finite 값은 동기 `RangeError`입니다. unmount 뒤 이전 handle의 이동 명령은 no-op이며 `getState()`는 마지막 snapshot을 반환합니다.

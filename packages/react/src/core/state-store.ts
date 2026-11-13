@@ -9,10 +9,7 @@ export interface ScrollbarStateStore {
   getState(): ScrollaState;
   subscribe(listener: ScrollaStateListener): () => void;
   commit(next: ScrollaState): ScrollaState | undefined;
-  notify(
-    state: ScrollaState,
-    reasons: readonly ScrollaChangeReason[],
-  ): void;
+  notify(state: ScrollaState, reasons: readonly ScrollaChangeReason[]): void;
   destroy(): void;
 }
 

@@ -110,9 +110,7 @@ describe("StrictMode 반복 mount/cleanup의 실제 자원 정리", () => {
     // StrictMode(dev)는 render/commit은 한 번만 하고 effect만 mount -> cleanup -> mount로 두 번
     // 실행하므로, holder/scroller DOM node 자체는 두 instance가 공유하는 같은 참조다.
     const holder = container.firstElementChild as HTMLElement;
-    const scroller = holder.querySelector(
-      ".scrolla__scroller",
-    ) as HTMLElement;
+    const scroller = holder.querySelector(".scrolla__scroller") as HTMLElement;
 
     // 첫 instance의 RAF는 그 synthetic cleanup에서 이미 취소되므로, 여기서 남은 건 두 번째
     // instance뿐이다.

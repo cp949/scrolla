@@ -27,7 +27,9 @@ function translateX(styleValue: string): number {
 
 describe("runtime observable frame matrix", () => {
   test("scroll, geometry, interaction, visibility invalidation은 한 RAF와 canonical notification으로 합류한다", () => {
-    scenario = createControllerTestScenario({ instrumentation: ["dom-events"] });
+    scenario = createControllerTestScenario({
+      instrumentation: ["dom-events"],
+    });
     const { controller, ingress } = scenario.createRuntime();
     const listener = vi.fn();
     controller.subscribe(listener);
@@ -225,11 +227,7 @@ describe("runtime observable frame matrix", () => {
 
   test("destroy는 pending RAF와 observer를 정리하고 captured callback, controller와 ingress를 no-op으로 만든다", () => {
     scenario = createControllerTestScenario({
-      instrumentation: [
-        "captured-callbacks",
-        "dom-events",
-        "resource-events",
-      ],
+      instrumentation: ["captured-callbacks", "dom-events", "resource-events"],
     });
     const { controller, ingress } = scenario.createRuntime();
     const listener = vi.fn();

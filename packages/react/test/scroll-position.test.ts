@@ -35,13 +35,19 @@ describe("normalizeScrollCommand", () => {
     [{}, {}],
     [{ x: 10 }, { x: 10 }],
     [{ y: -4 }, { y: -4 }],
-    [{ x: -0, y: Number.MAX_VALUE }, { x: -0, y: Number.MAX_VALUE }],
-  ])("유효한 command %o를 frozen normalized result %o로 만든다", (value, expected) => {
-    const result = normalizeScrollCommand(value);
+    [
+      { x: -0, y: Number.MAX_VALUE },
+      { x: -0, y: Number.MAX_VALUE },
+    ],
+  ])(
+    "유효한 command %o를 frozen normalized result %o로 만든다",
+    (value, expected) => {
+      const result = normalizeScrollCommand(value);
 
-    expect(result).toEqual(expected);
-    expect(Object.isFrozen(result)).toBe(true);
-  });
+      expect(result).toEqual(expected);
+      expect(Object.isFrozen(result)).toBe(true);
+    },
+  );
 
   test.each([null, [], 1, "scroll", true, () => {}])(
     "object가 아닌 command %o는 TypeError다",
@@ -56,7 +62,9 @@ describe("normalizeScrollCommand", () => {
 
     expect(() => normalizeScrollCommand(unknownString)).toThrow(TypeError);
     expect(() => normalizeScrollCommand(unknownSymbol)).toThrow(TypeError);
-    expect(() => normalizeScrollCommand({ x: "1" } as never)).toThrow(TypeError);
+    expect(() => normalizeScrollCommand({ x: "1" } as never)).toThrow(
+      TypeError,
+    );
     expect(() => normalizeScrollCommand({ y: undefined })).toThrow(TypeError);
   });
 

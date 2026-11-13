@@ -1,8 +1,5 @@
 import { describe, expect, test } from "vitest";
-import {
-  mirrorLogicalDelta,
-  mirrorOffset,
-} from "../src/core/rtl/mirror.js";
+import { mirrorLogicalDelta, mirrorOffset } from "../src/core/rtl/mirror.js";
 
 describe("mirrorOffset", () => {
   test("travel 범위 안에서 offset을 반대쪽 끝 기준으로 뒤집는다", () => {

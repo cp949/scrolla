@@ -14,7 +14,7 @@ export async function cdpPointerDrag(
   page: Page,
   from: { x: number; y: number },
   to: { x: number; y: number },
-  steps: number = 10
+  steps: number = 10,
 ): Promise<void> {
   const client = await page.context().newCDPSession(page);
 

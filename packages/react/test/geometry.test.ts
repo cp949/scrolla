@@ -85,9 +85,7 @@ describe("calculateAxisGeometry", () => {
   ] as const)(
     "position %d를 [0, maxPosition]으로 clamp한다",
     (position, expectedPosition, expectedOffset) => {
-      expect(
-        calculateAxisGeometry({ ...overflowingInput, position }),
-      ).toEqual({
+      expect(calculateAxisGeometry({ ...overflowingInput, position })).toEqual({
         viewportLength: 100,
         contentLength: 400,
         position: expectedPosition,
@@ -270,7 +268,14 @@ describe("calculateAxisGeometry", () => {
     ["track", 100, 400, -0, 0, 0],
   ] as const)(
     "%s의 invalid DOM metric을 canonical zero로 만든다",
-    (_metric, viewportLength, contentLength, trackLength, expectedViewport, expectedContent) => {
+    (
+      _metric,
+      viewportLength,
+      contentLength,
+      trackLength,
+      expectedViewport,
+      expectedContent,
+    ) => {
       expect(
         calculateAxisGeometry({
           axisEnabled: true,

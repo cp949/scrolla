@@ -44,9 +44,7 @@ function installFrameDriver(targetWindow: Window) {
 
 /** controller.test.ts의 installGeometryMetrics/installNativePosition과 같은 stub이다. */
 function installVerticalOverflowGeometry(holder: HTMLElement) {
-  const scroller = holder.querySelector(
-    ".scrolla__scroller",
-  ) as HTMLElement;
+  const scroller = holder.querySelector(".scrolla__scroller") as HTMLElement;
   const trackVertical = holder.querySelector(
     ".scrolla__track--vertical",
   ) as HTMLElement;
@@ -70,7 +68,14 @@ function installVerticalOverflowGeometry(holder: HTMLElement) {
       height: 100,
     }) as DOMRect;
   trackHorizontal.getBoundingClientRect = () =>
-    ({ left: 0, top: 190, right: 100, bottom: 200, width: 100, height: 10 }) as DOMRect;
+    ({
+      left: 0,
+      top: 190,
+      right: 100,
+      bottom: 200,
+      width: 100,
+      height: 10,
+    }) as DOMRect;
 
   let position = { x: 0, y: 0 };
   Object.defineProperties(scroller, {

@@ -17,14 +17,16 @@ test.describe("internal controller harness — nested scroll", () => {
     await innerScroller.hover();
 
     const innerMax = await page.evaluate(
-      () => window.__scrollaControllerNestedInner?.getState().maxPosition.y ?? 0,
+      () =>
+        window.__scrollaControllerNestedInner?.getState().maxPosition.y ?? 0,
     );
     await page.mouse.wheel(0, innerMax + 500);
 
     await expect
       .poll(() =>
         page.evaluate(
-          () => window.__scrollaControllerNestedInner?.getState().position.y ?? -1,
+          () =>
+            window.__scrollaControllerNestedInner?.getState().position.y ?? -1,
         ),
       )
       .toBe(innerMax);
@@ -37,7 +39,8 @@ test.describe("internal controller harness — nested scroll", () => {
     await expect
       .poll(() =>
         page.evaluate(
-          () => window.__scrollaControllerNestedOuter?.getState().position.y ?? -1,
+          () =>
+            window.__scrollaControllerNestedOuter?.getState().position.y ?? -1,
         ),
       )
       .toBeGreaterThan(outerBefore);

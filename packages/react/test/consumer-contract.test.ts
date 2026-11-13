@@ -10,7 +10,11 @@ type SpawnOptions = {
 
 const { spawnSync } = vi.hoisted(() => ({
   spawnSync: vi.fn<
-    (command: string, args: string[], options: SpawnOptions) => {
+    (
+      command: string,
+      args: string[],
+      options: SpawnOptions,
+    ) => {
       signal: null;
       status: number;
     }

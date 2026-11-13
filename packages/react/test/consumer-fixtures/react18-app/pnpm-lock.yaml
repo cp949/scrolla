@@ -132,7 +132,7 @@ packages:
     engines: {node: '>=6.9.0'}
 
   '@cp949/scrolla-react@file:../.tarball/cp949-scrolla-react-1.0.0.tgz':
-    resolution: {integrity: sha512-vc75GQOHmJBu2xa1eJWgx8rxlt2Celb485sevQ+82p1cEO5yu+4omdsVTyBqMqJBVXJ1UpMdeeWkEAiUs0UfAQ==, tarball: file:../.tarball/cp949-scrolla-react-1.0.0.tgz}
+    resolution: {integrity: sha512-rNE81yMDDpCPTIXakXcScYzk07bHimLm8VPN6pSwJ48l7kYjeJZClHOpahQCLgTQxY9/ZhZ6uz1eG8HnsOc3Gw==, tarball: file:../.tarball/cp949-scrolla-react-1.0.0.tgz}
     version: 1.0.0
     peerDependencies:
       react: ^18.0.0 || ^19.0.0

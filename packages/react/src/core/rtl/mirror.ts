@@ -1,9 +1,5 @@
 export function mirrorOffset(offset: number, travel: number): number {
-  if (
-    !Number.isFinite(offset) ||
-    !Number.isFinite(travel) ||
-    travel <= 0
-  ) {
+  if (!Number.isFinite(offset) || !Number.isFinite(travel) || travel <= 0) {
     return 0;
   }
   return travel - offset;

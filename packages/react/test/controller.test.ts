@@ -31,7 +31,10 @@ function disposeScenarios(): void {
     throw errors[0];
   }
   if (errors.length > 1) {
-    throw new AggregateError(errors, "controller test scenarios cleanup failed");
+    throw new AggregateError(
+      errors,
+      "controller test scenarios cleanup failed",
+    );
   }
 }
 
@@ -1898,7 +1901,9 @@ describe("createScrollbarController", () => {
       if (iframeDocument === null) {
         throw new Error("iframe contentDocument를 사용할 수 없습니다.");
       }
-      const scenario = createControllerTestScenario({ document: iframeDocument });
+      const scenario = createControllerTestScenario({
+        document: iframeDocument,
+      });
       scenarios.push(scenario);
       const iframeCreateElementSpy = vi.spyOn(iframeDocument, "createElement");
       const topCreateElementSpy = vi.spyOn(document, "createElement");
@@ -2110,7 +2115,9 @@ describe("createScrollbarController", () => {
     });
 
     expect(detachedDocument.defaultView).toBeNull();
-    expect(() => createScrollbarController(scenario.elements)).toThrow(TypeError);
+    expect(() => createScrollbarController(scenario.elements)).toThrow(
+      TypeError,
+    );
   });
 
   test.each([
@@ -2236,7 +2243,6 @@ describe("createScrollbarController", () => {
       timers.runDue();
       expect(frames.pendingCount).toBe(0);
       expect(controller.getState().visibility).toBe("visible");
-
     });
 
     test("focus가 holder 바깥으로 이동하면 idle delay 뒤 hidden으로 전환한다", () => {
@@ -2317,7 +2323,6 @@ describe("createScrollbarController", () => {
       timers.runDue();
       frames.runNext();
       expect(controller.getState().visibility).toBe("hidden");
-
     });
 
     test("autoHide가 false면 idle delay가 지나도 항상 visible이다", () => {
@@ -2334,7 +2339,6 @@ describe("createScrollbarController", () => {
       timers.runDue();
       expect(frames.pendingCount).toBe(0);
       expect(controller.getState().visibility).toBe("visible");
-
     });
 
     test("scroll activity 중에는 hidden되지 않고, scrollIdleDelay와 autoHideDelay가 순서대로 지나야 hidden된다", () => {
@@ -2367,7 +2371,6 @@ describe("createScrollbarController", () => {
       timers.runDue();
       frames.runNext();
       expect(controller.getState().visibility).toBe("hidden");
-
     });
   });
 

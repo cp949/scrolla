@@ -6,13 +6,13 @@ Scrolla의 browser 하한 목표는 Chrome Desktop 75입니다. 현재 자동화
 
 ## 지원 구분
 
-| 구분 | 범위 | 상태 |
-| --- | --- | --- |
-| 하한 목표 | Chrome Desktop 75 | 호환성 목표. 직접 실행 검증은 미실시 |
-| 검증 환경 | Linux 컨테이너 Chrome 83 | 핵심 시나리오 검증 완료 |
-| 지속 검증 | 최신 Chrome Desktop | 회귀 검증 환경 |
-| 비공식 기대 | 다른 desktop Chromium | 동작을 기대할 수 있으나 보장하지 않음 |
-| 지원 제외 | 모바일 browser, Android/iOS WebView, embedded WebView, Firefox, Safari | 공식 지원 범위 아님 |
+| 구분        | 범위                                                                   | 상태                                  |
+| ----------- | ---------------------------------------------------------------------- | ------------------------------------- |
+| 하한 목표   | Chrome Desktop 75                                                      | 호환성 목표. 직접 실행 검증은 미실시  |
+| 검증 환경   | Linux 컨테이너 Chrome 83                                               | 핵심 시나리오 검증 완료               |
+| 지속 검증   | 최신 Chrome Desktop                                                    | 회귀 검증 환경                        |
+| 비공식 기대 | 다른 desktop Chromium                                                  | 동작을 기대할 수 있으나 보장하지 않음 |
+| 지원 제외   | 모바일 browser, Android/iOS WebView, embedded WebView, Firefox, Safari | 공식 지원 범위 아님                   |
 
 ## 검증한 동작
 

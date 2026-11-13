@@ -31,7 +31,10 @@ function disposeScenarios(): void {
     throw errors[0];
   }
   if (errors.length > 1) {
-    throw new AggregateError(errors, "controller test scenarios cleanup failed");
+    throw new AggregateError(
+      errors,
+      "controller test scenarios cleanup failed",
+    );
   }
 }
 

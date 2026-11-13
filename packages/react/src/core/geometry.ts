@@ -41,14 +41,11 @@ function zeroGeometry(
   });
 }
 
-export function calculateAxisGeometry(
-  input: AxisGeometryInput,
-): AxisGeometry {
+export function calculateAxisGeometry(input: AxisGeometryInput): AxisGeometry {
   const viewportLength = normalizeMetric(input.viewportLength);
   const contentLength = normalizeMetric(input.contentLength);
   const trackLength = normalizeMetric(input.trackLength);
-  const measurable =
-    input.measurable && viewportLength > 0 && trackLength > 0;
+  const measurable = input.measurable && viewportLength > 0 && trackLength > 0;
 
   if (!measurable) {
     return zeroGeometry(0, 0);

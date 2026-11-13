@@ -58,10 +58,7 @@ function focusEvent(relatedTarget: Node | null): FocusEvent {
   return { relatedTarget } as unknown as FocusEvent;
 }
 
-function createHarness(
-  initialDelay = 100,
-  initialAutoHide = true,
-) {
+function createHarness(initialDelay = 100, initialAutoHide = true) {
   const clock = new FakeClock();
   const holder = new FakeHolder();
   const invalidate = vi.fn();

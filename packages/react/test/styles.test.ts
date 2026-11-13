@@ -60,10 +60,7 @@ describe("library styles", () => {
 
   test("stable track과 thumb selector는 pointer input을 아래 element로 통과시킨다", () => {
     const root = postcss.parse(compile(stylesPath).css, { from: stylesPath });
-    const requiredSelectors = [
-      ".scrolla__track",
-      ".scrolla__thumb",
-    ] as const;
+    const requiredSelectors = [".scrolla__track", ".scrolla__thumb"] as const;
     const pointerEventsBySelector = new Map<string, string>();
 
     root.walkRules((rule) => {
@@ -125,11 +122,11 @@ describe("custom property와 stable class 배선", () => {
     const root = compileRoot();
     const horizontal = findRule(
       root,
-      '.scrolla[data-dragging=horizontal] .scrolla__thumb--horizontal',
+      ".scrolla[data-dragging=horizontal] .scrolla__thumb--horizontal",
     );
     const vertical = findRule(
       root,
-      '.scrolla[data-dragging=vertical] .scrolla__thumb--vertical',
+      ".scrolla[data-dragging=vertical] .scrolla__thumb--vertical",
     );
     const expectedValues = [
       "rgba(0, 0, 0, 0.65)",
@@ -145,13 +142,13 @@ describe("custom property와 stable class 배선", () => {
     expect(() =>
       findRule(
         root,
-        '.scrolla[data-dragging=horizontal] .scrolla__thumb--vertical',
+        ".scrolla[data-dragging=horizontal] .scrolla__thumb--vertical",
       ),
     ).toThrow();
     expect(() =>
       findRule(
         root,
-        '.scrolla[data-dragging=vertical] .scrolla__thumb--horizontal',
+        ".scrolla[data-dragging=vertical] .scrolla__thumb--horizontal",
       ),
     ).toThrow();
   });
