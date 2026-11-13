@@ -68,7 +68,7 @@
     "sass": "1.97.3",
     "types-react-18": "npm:@types/react@18.3.31",
     "typescript": "6.0.3",
-    "vite": "8.2.2",
-    "vitest": "4.1.11"
+    "vite": "8.2.6",
+    "vitest": "4.1.12"
   }
 }
