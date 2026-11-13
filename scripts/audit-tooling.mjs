@@ -124,6 +124,16 @@ for (const manifestPath of manifestPaths) {
       }
     }
 
+    // 1.64.0부터 Playwright injected script가 Element.checkVisibility()를 가드 없이 호출해
+    // Chrome 83(chrome83-floor e2e)에서 toBeVisible()이 실패한다. 1.63.0이 마지막 호환 버전이다.
+    if (
+      packageName === "@playwright/test" &&
+      semver.valid(version) &&
+      semver.gt(version, "1.63.0")
+    ) {
+      report(`${label}: @playwright/test는 1.63.0 이하여야 합니다 (현재: ${version}). Chrome 83에서 checkVisibility 오류가 발생합니다.`);
+    }
+
     if (forbiddenPackages.has(packageName) || packageName.startsWith("eslint-")) {
       report(`${label}: ${packageName}은 허용되지 않습니다. oxlint, oxfmt를 사용하세요.`);
     }

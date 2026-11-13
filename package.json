@@ -19,13 +19,13 @@
     "verify": "pnpm audit:tooling && turbo run check-types lint test build audit audit-consumers && pnpm check-types:e2e && pnpm lint:e2e && pnpm test:scripts"
   },
   "devDependencies": {
-    "@playwright/test": "1.62.1",
+    "@playwright/test": "1.63.0",
     "@repo/typescript-config": "workspace:*",
     "oxfmt": "0.78.0",
     "oxlint": "1.93.0",
     "oxlint-tsgolint": "7.0.2007",
-    "semver": "7.7.2",
-    "turbo": "2.10.12",
+    "semver": "7.8.6",
+    "turbo": "2.11.11",
     "typescript": "6.0.3"
   },
   "packageManager": "pnpm@10.34.5",
